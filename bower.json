@@ -1,7 +1,16 @@
 {
   "name": "tada",
   "version": "0.1.0",
-  "main": "dist/scripts/tada.js",
+  "main": "dist/concat/scripts/tada.js",
+  "keywords": [
+    "testing",
+    "ngTesting",
+    "mocking",
+    "angular-mocking",
+    "angular-testing",
+    "ng-unit-testing",
+    "unit-testing",
+    "angular-unit-testing"],
   "ignore": [
     ".*",
     "Gemfile*",
@@ -12,17 +21,12 @@
     "app",
     "test",
     "maven",
-    "*.sublime*"
+    "*.sublime*",
+    "scripts"
   ],
-  "dependencies": {
+  "devDependencies": {
     "jquery": "~2.0.3",
     "angular": "~1.2.0",
-    "angular-translate": "~1.1.0",
-    "angular-i18n": "~1.2.0",
-    "uri.js": "~1.13.1",
-    "wix-angular": "~0.1.1"
-  },
-  "devDependencies": {
     "angular-mocks": "~1.2.0",
     "es5-shim": "~2.1.0"
   },
