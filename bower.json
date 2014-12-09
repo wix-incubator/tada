@@ -1,6 +1,6 @@
 {
   "name": "tada",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/concat/scripts/tada.js",
   "keywords": [
     "testing",
@@ -10,7 +10,8 @@
     "angular-testing",
     "ng-unit-testing",
     "unit-testing",
-    "angular-unit-testing"],
+    "angular-unit-testing"
+  ],
   "ignore": [
     ".*",
     "Gemfile*",
