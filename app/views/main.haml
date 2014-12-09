@@ -1,0 +1,7 @@
+.hero-unit{:"ng-controller" => "MainController as main"}
+  %h1 {{'general.YO' | translate}}
+  %p You now have
+  %ul
+    %li{:"ng-repeat" => "thing in main.awesomeThings"} {{thing}}
+  %p installed.
+  %h3 Enjoy coding! - Yeoman
