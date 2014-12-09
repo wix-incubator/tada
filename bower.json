@@ -22,7 +22,9 @@
     "test",
     "maven",
     "*.sublime*",
-    "scripts"
+    "dist/.*",
+    "dist/bower_components",
+    "dist/scripts"
   ],
   "devDependencies": {
     "jquery": "~2.0.3",
