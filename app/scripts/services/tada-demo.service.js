@@ -3,7 +3,8 @@
 (function () {
 
   /* @ngInject */
-  function DemoService($q, $timeout) {
+  function DemoService($q, $timeout, thirdPartyService) {
+
     this.aSyncServiceMethod = function () {
       var defer = $q.defer();
 
@@ -16,6 +17,10 @@
 
     this.syncedMethod = function () {
       return 'real response value';
+    };
+
+    this.methodThatUsesThirdPartyService = function () {
+      return thirdPartyService.doSomething();
     };
   }
 
