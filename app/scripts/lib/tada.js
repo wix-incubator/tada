@@ -13,36 +13,35 @@ angular.module('tada', [])
       var defer = $q.defer();
       var firstCall = true;
       var calledWithArgs;
-
       var func = jasmine.createSpy(name).andCallFake(function () {
         calledWithArgs = serializeArgs(arguments);
         defer = firstCall ? defer : $q.defer();
         firstCall = false;
         return defer.promise;
       });
-
       func.returns = function (value) {
         defer.resolve(value);
         $rootScope.$digest();
       };
-
       func.whenCalledWithArgs = function () {
         var expectedCalledArgs = serializeArgs(arguments);
         return {
           returns: function (value) {
-            if (calledWithArgs === expectedCalledArgs) {
+            if (expectedCalledArgs === calledWithArgs) {
               defer.resolve(value);
               $rootScope.$digest();
             }
+          },
+          rejects: function (value) {
+            defer.reject(value);
+            $rootScope.$digest();
           }
         };
       };
-
       func.rejects = function (value) {
         defer.reject(value);
         $rootScope.$digest();
       };
-
       return func;
     }
 

@@ -36,6 +36,33 @@ describe('Testing tada lib', function () {
       expect(serviceResponse).toEqual(expectedResponseForArgs);
     });
 
+    it('should reject successfully when called with expected args', function () {
+      var serviceResponse;
+      demoCtrl.callServiceWithAsyncMethod().catch(function (response) {
+        serviceResponse = response;
+      });
+
+      var expectedResponseForArgs = 'expected result';
+      demoService.aSyncServiceMethod.whenCalledWithArgs('first arg', 'second arg').rejects(expectedResponseForArgs);
+
+      expect(serviceResponse).toEqual(expectedResponseForArgs);
+    });
+
+    it('should support two definitions of the same method with different args', function () {
+      var res1, res2;
+      demoService.aSyncServiceMethod('first arg', 'second arg').then(function (response) {
+        res1 = response;
+      });
+      demoService.aSyncServiceMethod.whenCalledWithArgs('first arg', 'second arg').returns('1');
+
+      demoService.aSyncServiceMethod('AAA').then(function (response) {
+        res2 = response;
+      });
+      demoService.aSyncServiceMethod.whenCalledWithArgs('AAA').returns('2');
+      expect(res1 && res2).toBeTruthy();
+      expect(res1).toEqual('1');
+      expect(res2).toEqual('2');
+    });
   });
 
   describe('synchronous functions', function () {
