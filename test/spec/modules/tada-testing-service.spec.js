@@ -4,9 +4,10 @@ describe('Testing tada lib', function () {
   var demoService, thirdPartyService;
 
   beforeEach(function () {
-    module('tadaDemoAppTestKit');
     module('tadaDemoAppInternal');
-    injectModuleWithMockThirdPartyService();
+    module('tadaDemoAppTestKit', function (tadaUtilsProvider) {
+      tadaUtilsProvider.mock('thirdPartyService');
+    });
     thirdPartyService = aThirdPartyServiceMock();
     demoService = aDemoService();
   });
@@ -38,13 +39,4 @@ describe('Testing tada lib', function () {
     });
     return thirdPartyServiceMock;
   }
-
-  function injectModuleWithMockThirdPartyService() {
-    module(function ($provide) {
-      $provide.service('thirdPartyService', function (thirdPartyServiceMock) {
-        return thirdPartyServiceMock;
-      });
-    });
-  }
-
 });

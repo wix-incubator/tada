@@ -5,7 +5,7 @@
   /* @ngInject */
   function DemoController(demoService) {
     this.callServiceWithAsyncMethod = function () {
-      return demoService.aSyncServiceMethod('first arg', 'second arg').then(function (response) {
+      return demoService.asyncServiceMethod('first arg', 'second arg').then(function (response) {
         return response;
       });
     };

@@ -4,11 +4,16 @@ describe('Testing tada lib', function () {
   var demoService, demoCtrl;
 
   beforeEach(function () {
-    module('tadaDemoAppTestKit');
     module('tadaDemoAppInternal');
-    demoService = aDemoServiceMock();
-    demoCtrl = aDemoController();
+    module('tadaDemoAppTestKit', function (tadaUtilsProvider) {
+      tadaUtilsProvider.mock('demoService');
+    });
   });
+
+  beforeEach(inject(function (_demoService_) {
+    demoService = _demoService_;
+    demoCtrl = aDemoController();
+  }));
 
   describe('asynchronous functions', function () {
 
@@ -19,7 +24,7 @@ describe('Testing tada lib', function () {
       });
 
       var expectedResponse = 'moki';
-      demoService.aSyncServiceMethod.returns(expectedResponse);
+      demoService.asyncServiceMethod.returns(expectedResponse);
 
       expect(serviceResponse).toEqual(expectedResponse);
     }));
@@ -31,7 +36,7 @@ describe('Testing tada lib', function () {
       });
 
       var expectedResponseForArgs = 'expected result';
-      demoService.aSyncServiceMethod.whenCalledWithArgs('first arg', 'second arg').returns(expectedResponseForArgs);
+      demoService.asyncServiceMethod.whenCalledWithArgs('first arg', 'second arg').returns(expectedResponseForArgs);
 
       expect(serviceResponse).toEqual(expectedResponseForArgs);
     });
@@ -43,22 +48,22 @@ describe('Testing tada lib', function () {
       });
 
       var expectedResponseForArgs = 'expected result';
-      demoService.aSyncServiceMethod.whenCalledWithArgs('first arg', 'second arg').rejects(expectedResponseForArgs);
+      demoService.asyncServiceMethod.whenCalledWithArgs('first arg', 'second arg').rejects(expectedResponseForArgs);
 
       expect(serviceResponse).toEqual(expectedResponseForArgs);
     });
 
     it('should support two definitions of the same method with different args', function () {
       var res1, res2;
-      demoService.aSyncServiceMethod('first arg', 'second arg').then(function (response) {
+      demoService.asyncServiceMethod('first arg', 'second arg').then(function (response) {
         res1 = response;
       });
-      demoService.aSyncServiceMethod.whenCalledWithArgs('first arg', 'second arg').returns('1');
+      demoService.asyncServiceMethod.whenCalledWithArgs('first arg', 'second arg').returns('1');
 
-      demoService.aSyncServiceMethod('AAA').then(function (response) {
+      demoService.asyncServiceMethod('AAA').then(function (response) {
         res2 = response;
       });
-      demoService.aSyncServiceMethod.whenCalledWithArgs('AAA').returns('2');
+      demoService.asyncServiceMethod.whenCalledWithArgs('AAA').returns('2');
       expect(res1 && res2).toBeTruthy();
       expect(res1).toEqual('1');
       expect(res2).toEqual('2');
@@ -75,15 +80,20 @@ describe('Testing tada lib', function () {
       expect(serviceResponse).toEqual(expectedResponse);
     });
 
-  });
+    it('should support when called with args for sync functions', function () {
+      var expected = 'my expected value';
+      var myArg = 'my-arg';
 
-  function aDemoServiceMock() {
-    var demoService;
-    inject(function (demoServiceMock) {
-      demoService = demoServiceMock;
+      demoService.syncedMethod.whenCalledWithArgs(myArg).returns(expected);
+
+      var firstResult = demoService.syncedMethod('some other arg');
+      expect(firstResult).not.toBeDefined();
+
+      var secondResult = demoService.syncedMethod(myArg);
+      expect(secondResult).toEqual(expected);
     });
-    return demoService;
-  }
+
+  });
 
   function aDemoController() {
     var ctrl;
@@ -95,5 +105,4 @@ describe('Testing tada lib', function () {
     });
     return ctrl;
   }
-
 });

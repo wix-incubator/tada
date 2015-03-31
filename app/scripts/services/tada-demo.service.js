@@ -5,7 +5,7 @@
   /* @ngInject */
   function DemoService($q, $timeout, thirdPartyService) {
 
-    this.aSyncServiceMethod = function () {
+    this.asyncServiceMethod = function () {
       var defer = $q.defer();
 
       $timeout(function () {

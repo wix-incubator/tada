@@ -9,8 +9,8 @@ module.exports = function (grunt) {
     });
   }});
   require('wix-gruntfile')(grunt, {
-    staging: 'pizza', //modify to your staging environment
-    subdomain: 'www', //modify to your sub-domain
+    staging: '', //modify to your staging environment
+    subdomain: '', //modify to your sub-domain
     cdnify: 'vm',
     port: 9000,
     preloadModule: 'tadaAppInternal',
@@ -19,6 +19,7 @@ module.exports = function (grunt) {
     protractor: true,
     bowerComponent: true
   });
+
   var e2eTaskIndex = grunt.hookTask('build').indexOf('e2e:normal');
   if (e2eTaskIndex !== -1) {
     grunt.hookTask('build').splice(e2eTaskIndex, 1);
