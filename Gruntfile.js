@@ -24,6 +24,7 @@ module.exports = function (grunt) {
   if (e2eTaskIndex !== -1) {
     grunt.hookTask('build').splice(e2eTaskIndex, 1);
   }
+  grunt.modifyTask('yeoman', {local: 'http://localhost:9000/'});
 
   //Follow this URL for instructions on how to override built-in definitions:
   //https://github.com/wix/wix-gruntfile/blob/master/README.md
