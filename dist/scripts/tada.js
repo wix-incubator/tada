@@ -17,7 +17,9 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
             var defer = $q.defer();
             var firstCall = true;
             var calledWithArgs;
-            var func = jasmine.createSpy(name).andCallFake(function() {
+            var spy = jasmine.createSpy(name);
+            spy.fake = spy.andCallFake || spy.and.callFake;
+            var func = spy.fake(function() {
                 calledWithArgs = serializeArgs(arguments);
                 defer = firstCall ? defer : $q.defer();
                 firstCall = false;
@@ -50,17 +52,21 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
         }
         function createFunc(name) {
             var calledWithArgs;
-            var func = jasmine.createSpy(name).andCallFake(function() {
+            var spy = jasmine.createSpy(name);
+            spy.fake = spy.andCallFake || spy.and.callFake;
+            var func = spy.fake(function() {
                 calledWithArgs = serializeArgs(arguments);
             });
             func.returns = function(value) {
-                func.andReturn(value);
+                func.realReturn = func.andReturn || func.and.return;
+                func.realReturn(value);
             };
             func.whenCalledWithArgs = function() {
                 var expectedCalledArgs = serializeArgs(arguments);
                 return {
                     returns: function(value) {
-                        return func.andCallFake(function() {
+                        func.fake = func.andCallFake || func.and.callFake;
+                        return func.fake(function() {
                             if (serializeArgs(arguments) === expectedCalledArgs) {
                                 return value;
                             }
