@@ -21,13 +21,12 @@ For more info checkout our [slides](https://slides.com/nadav/how-not-to-test-you
 
 ## Why
 
-1. First and for most your tests will look better and will be more readable.
+1. Your tests will look better and will be more readable.
 2. No more writing the same mocks over and over again.
 3. No more writing complicated async mocks using $q and adding ugly $disget() calls in the middle of your tests.
-4. Use our enenched spies with the apis such as:```js
+4. Use our enhanced spies with the apis such as:```js
 spy.whenCalledWithArgs(myArgs).returns(customResponse);
 ```
-5. 
 
 ## Installation
 
