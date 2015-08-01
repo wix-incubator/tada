@@ -65,7 +65,7 @@ angular.module('tada', [])
         });
 
         func.returns = function (value) {
-          func.realReturn = func.andReturn || func.and.return;
+          func.realReturn = func.andReturn || func.and.returnValue;
           func.realReturn(value);
         };
 

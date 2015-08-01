@@ -58,7 +58,7 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
                 calledWithArgs = serializeArgs(arguments);
             });
             func.returns = function(value) {
-                func.realReturn = func.andReturn || func.and.return;
+                func.realReturn = func.andReturn || func.and.returnValue;
                 func.realReturn(value);
             };
             func.whenCalledWithArgs = function() {
