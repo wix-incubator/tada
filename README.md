@@ -17,14 +17,15 @@ TADA is a set of smart spies that will make your unit tests more readable.
 
 It was born after writing the same patterns again and again and after writing hundreds of bad looking / unreadble tests.
 
-For more info checkout our [slides](https://slides.com/nadav/how-not-to-test-your-angular-application#/) and talk we gave at [AngularJS IL](http://www.meetup.com/AngularJS-IL/events/220091391/) (Video coming soon)
+For more info checkout our [slides](https://slides.com/nadav/how-not-to-test-your-angular-application#/) or watch the [video](https://www.youtube.com/watch?v=E0vx8dByhWM) of the talk we gave at [AngularJS IL](http://www.meetup.com/AngularJS-IL/events/220091391/).
 
 ## Why
 
 1. Your tests will look better and will be more readable.
 2. No more writing the same mocks over and over again.
 3. No more writing complicated async mocks using $q and adding ugly $disget() calls in the middle of your tests.
-4. Use our enhanced spies with the apis such as:```js
+4. Use our enhanced spies with the apis such as:
+```js
 spy.whenCalledWithArgs(myArgs).returns(customResponse);
 ```
 
