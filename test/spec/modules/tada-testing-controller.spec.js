@@ -29,6 +29,21 @@ describe('Testing tada lib', function () {
       expect(serviceResponse).toEqual(expectedResponse);
     }));
 
+    it('should call mock service in controller and reject', inject(function () {
+      var failSpy = jasmine.createSpy('fail');
+      demoCtrl.callServiceWithAsyncMethod().catch(failSpy);
+      demoService.asyncServiceMethod.rejects();
+      expect(failSpy).toHaveBeenCalled();
+    }));
+
+    it('should call mock service in controller and reject (reject before call)', inject(function ($rootScope) {
+      var failSpy = jasmine.createSpy('fail');
+      demoService.asyncServiceMethod.rejects();
+      demoCtrl.callServiceWithAsyncMethod().catch(failSpy);
+      $rootScope.$digest();
+      expect(failSpy).toHaveBeenCalled();
+    }));
+
     it('should resolve successfully only in case of expected args', function () {
       var serviceResponse;
       demoCtrl.callServiceWithAsyncMethod().then(function (response) {
