@@ -34,7 +34,7 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
                 return defer.promise;
             });
             func.returns = function(value) {
-                resovle(value);
+                resolve(value);
             };
             func.whenCalledWithArgs = function() {
                 var expectedCalledArgs = serializeArgs(arguments);
@@ -53,14 +53,14 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
                     }
                 };
             };
-            func.rejects = function() {
-                reject();
+            func.rejects = function(value) {
+                reject(value);
             };
-            function resovle(value) {
+            function resolve(value) {
                 resolveOrReject(true, value);
             }
-            function reject() {
-                resolveOrReject(false);
+            function reject(value) {
+                resolveOrReject(false, value);
             }
             function resolveOrReject(shouldResolve, args) {
                 var action = shouldResolve ? "resolve" : "reject";
