@@ -7,4 +7,5 @@ angular.module('tadaDemoAppTestKit', ['tada'])
   })
   .service('thirdPartyServiceMock', function (tadaUtils) {
     this.doSomething = tadaUtils.createFunc('do something');
+    this.doSomethingAsync = tadaUtils.createAsyncFunc('doSomethingAsync');
   });

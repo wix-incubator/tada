@@ -19,39 +19,55 @@ angular.module('tada', [])
       }
 
       function createAsyncFunc(name) {
-        var defer = $q.defer();
-        var firstCall = true;
-        var calledWithArgs;
+        var calls = [];
+        var callsIndex = 0;
+        var returnsIndex = 0;
         var spy = jasmine.createSpy(name);
         spy.fake = spy.andCallFake || spy.and.callFake;
         var func = spy.fake(function () {
-          calledWithArgs = serializeArgs(arguments);
-          defer = firstCall ? defer : $q.defer();
-          firstCall = false;
+          var defer;
+          if(calls[callsIndex]) {
+            defer = calls[callsIndex].promise;
+          } else {
+            defer = $q.defer();
+            calls.push({promise: defer, args: serializeArgs(arguments)});
+          }
+          callsIndex++;
           return defer.promise;
         });
         func.returns = function (value) {
-          defer.resolve(value);
+          if(returnsIndex < callsIndex)
+            calls.shift().promise.resolve(value);
+          else {
+            var defer = $q.defer();
+            calls.push({promise: defer, args:[]});
+            defer.resolve(value);
+          }
+
+          returnsIndex++;
           $rootScope.$digest();
         };
         func.whenCalledWithArgs = function () {
           var expectedCalledArgs = serializeArgs(arguments);
           return {
             returns: function (value) {
-              if (expectedCalledArgs === calledWithArgs) {
-                defer.resolve(value);
+              if (expectedCalledArgs === calls[returnsIndex].args) {
+                calls[returnsIndex].promise.resolve(value);
                 $rootScope.$digest();
+                returnsIndex++;
               }
             },
             rejects: function (value) {
-              defer.reject(value);
+              calls[returnsIndex].promise.reject(value);
               $rootScope.$digest();
+              returnsIndex++;
             }
           };
         };
         func.rejects = function (value) {
-          defer.reject(value);
+          calls[returnsIndex].promise.reject(value);
           $rootScope.$digest();
+          returnsIndex++;
         };
         return func;
       }

@@ -8,6 +8,10 @@
     this.doSomething = function () {
       return 'what do u want me to do??';
     };
+
+    this.doSomethingAsync = function () {
+      return 'what do u want me to do async??';
+    };
   }
 
   angular

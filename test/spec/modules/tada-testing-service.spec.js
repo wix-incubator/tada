@@ -22,6 +22,42 @@ describe('Testing tada lib', function () {
 
       expect(serviceResponse).toEqual(expected);
     }));
+
+    it('should support multiple request simultaneously', function () {
+      var firstReturnValue = '1';
+      var secondReturnValue = '2';
+
+      var verifyCalled = jasmine.createSpy('verify');
+
+      demoService.methodThatUsesThirdPartyServiceSimultaneously().then(function (serviceResponse) {
+        expect(serviceResponse).toEqual([firstReturnValue, secondReturnValue]);
+        verifyCalled();
+      });
+
+      thirdPartyService.doSomethingAsync.returns(firstReturnValue);
+      thirdPartyService.doSomethingAsync.returns(secondReturnValue);
+
+      expect(verifyCalled).toHaveBeenCalled();
+
+    });
+
+    it('should support multiple request simultaneously returns are determined before the calls', inject(function ($rootScope) {
+      var firstReturnValue = '1';
+      var secondReturnValue = '2';
+
+      var verifyCalled = jasmine.createSpy('verify');
+
+      thirdPartyService.doSomethingAsync.returns(firstReturnValue);
+      thirdPartyService.doSomethingAsync.returns(secondReturnValue);
+
+      demoService.methodThatUsesThirdPartyServiceSimultaneously().then(function (serviceResponse) {
+        expect(serviceResponse).toEqual([firstReturnValue, secondReturnValue]);
+        verifyCalled();
+      });
+      $rootScope.$digest();
+      expect(verifyCalled).toHaveBeenCalled();
+
+    }));
   });
 
   function aDemoService() {

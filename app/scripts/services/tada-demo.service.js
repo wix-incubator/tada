@@ -22,6 +22,10 @@
     this.methodThatUsesThirdPartyService = function () {
       return thirdPartyService.doSomething();
     };
+
+    this.methodThatUsesThirdPartyServiceSimultaneously = function () {
+      return $q.all([thirdPartyService.doSomethingAsync(), thirdPartyService.doSomethingAsync()]);
+    };
   }
 
   angular
