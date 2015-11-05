@@ -32,8 +32,8 @@ describe('Testing tada lib', function () {
     it('should call mock service in controller and reject', inject(function () {
       var failSpy = jasmine.createSpy('fail');
       demoCtrl.callServiceWithAsyncMethod().catch(failSpy);
-      demoService.asyncServiceMethod.rejects();
-      expect(failSpy).toHaveBeenCalled();
+      demoService.asyncServiceMethod.rejects('my reject msg');
+      expect(failSpy).toHaveBeenCalledWith('my reject msg');
     }));
 
     it('should call mock service in controller and reject (reject before call)', inject(function ($rootScope) {
