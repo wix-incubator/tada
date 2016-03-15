@@ -2,7 +2,7 @@
 
 beforeEach(function () {
 
-  this.addMatchers({
+  jasmine.addMatchers({
     toEqualData: function (expected) {
       return angular.equals(this.actual, expected);
     },
