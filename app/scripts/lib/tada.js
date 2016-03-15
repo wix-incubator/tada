@@ -14,8 +14,8 @@ angular.module('tada', [])
     };
 
     this.$get = function ($q, $rootScope) {
-      function serializeArgs(args) {
-        return JSON.stringify(Array.prototype.slice.call(args));
+      function toArray(args) {
+        return Array.prototype.slice.call(args);
       }
 
       function createAsyncFunc(name) {
@@ -26,11 +26,11 @@ angular.module('tada', [])
         spy.fake = spy.andCallFake || spy.and.callFake;
         var func = spy.fake(function () {
           var defer;
-          if(calls[callsIndex]) {
+          if (calls[callsIndex]) {
             defer = calls[callsIndex].promise;
           } else {
             defer = $q.defer();
-            calls.push({promise: defer, args: serializeArgs(arguments)});
+            calls.push({promise: defer, args: toArray(arguments)});
           }
           callsIndex++;
           return defer.promise;
@@ -39,10 +39,10 @@ angular.module('tada', [])
           resolve(value);
         };
         func.whenCalledWithArgs = function () {
-          var expectedCalledArgs = serializeArgs(arguments);
+          var expectedCalledArgs = toArray(arguments);
           return {
             returns: function (value) {
-              if (expectedCalledArgs === calls[returnsIndex].args) {
+              if (angular.equals(expectedCalledArgs, calls[returnsIndex].args)) {
                 calls[returnsIndex].promise.resolve(value);
                 $rootScope.$digest();
                 returnsIndex++;
@@ -62,29 +62,33 @@ angular.module('tada', [])
         function resolve(value) {
           resolveOrReject(true, value);
         }
+
         function reject(value) {
           resolveOrReject(false, value);
         }
+
         function resolveOrReject(shouldResolve, args) {
           var action = shouldResolve ? 'resolve' : 'reject';
-          if(returnsIndex < callsIndex)
+          if (returnsIndex < callsIndex)
             calls.shift().promise[action].call(this, args);
           else {
             var defer = $q.defer();
-            calls.push({promise: defer, args:[]});
+            calls.push({promise: defer, args: []});
             defer[action].call(this, args);
           }
           returnsIndex++;
           $rootScope.$digest();
         }
+
         return func;
       }
+
       function createFunc(name) {
         var calledWithArgs;
         var spy = jasmine.createSpy(name);
         spy.fake = spy.andCallFake || spy.and.callFake;
         var func = spy.fake(function () {
-          calledWithArgs = serializeArgs(arguments);
+          calledWithArgs = toArray(arguments);
         });
 
         func.returns = function (value) {
@@ -93,12 +97,12 @@ angular.module('tada', [])
         };
 
         func.whenCalledWithArgs = function () {
-          var expectedCalledArgs = serializeArgs(arguments);
+          var expectedCalledArgs = toArray(arguments);
           return {
             returns: function (value) {
               func.fake = func.andCallFake || func.and.callFake;
               return func.fake(function () {
-                if (serializeArgs(arguments) === expectedCalledArgs) {
+                if (angular.equals(toArray(arguments), expectedCalledArgs)) {
                   return value;
                 }
               });

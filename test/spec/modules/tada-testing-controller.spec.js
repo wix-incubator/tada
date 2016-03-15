@@ -110,6 +110,39 @@ describe('Testing tada lib', function () {
 
   });
 
+  describe('Cyclic arguments', function () {
+    var cycle = [];
+    cycle.push(cycle);
+    
+    describe('Synced method', function () {
+      it('should support cyclic arguments in mock', function () {
+        expect(function () {
+          demoService.syncedMethod(cycle)
+        }).not.toThrow();
+      });
+
+      it('should support cyclic arguments for whenCalledWithArgs', function () {
+        expect(function () {
+          demoService.syncedMethod.whenCalledWithArgs(cycle);
+        }).not.toThrow();
+      });
+    });
+    
+    describe('Ansynced method', function () {
+      it('should support cyclic arguments in mock', function () {
+        expect(function () {
+          demoService.asyncServiceMethod(cycle)
+        }).not.toThrow();
+      });
+
+      it('should support cyclic arguments for whenCalledWithArgs', function () {
+        expect(function () {
+          demoService.asyncServiceMethod.whenCalledWithArgs(cycle);
+        }).not.toThrow();
+      });
+    });
+  });
+
   function aDemoController() {
     var ctrl;
     inject(function ($controller, $rootScope) {
