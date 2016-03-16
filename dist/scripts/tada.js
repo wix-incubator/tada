@@ -10,8 +10,8 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
         });
     };
     this.$get = [ "$q", "$rootScope", function($q, $rootScope) {
-        function serializeArgs(args) {
-            return JSON.stringify(Array.prototype.slice.call(args));
+        function toArray(args) {
+            return Array.prototype.slice.call(args);
         }
         function createAsyncFunc(name) {
             var calls = [];
@@ -27,7 +27,7 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
                     defer = $q.defer();
                     calls.push({
                         promise: defer,
-                        args: serializeArgs(arguments)
+                        args: toArray(arguments)
                     });
                 }
                 callsIndex++;
@@ -37,10 +37,10 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
                 resolve(value);
             };
             func.whenCalledWithArgs = function() {
-                var expectedCalledArgs = serializeArgs(arguments);
+                var expectedCalledArgs = toArray(arguments);
                 return {
                     returns: function(value) {
-                        if (expectedCalledArgs === calls[returnsIndex].args) {
+                        if (angular.equals(expectedCalledArgs, calls[returnsIndex].args)) {
                             calls[returnsIndex].promise.resolve(value);
                             $rootScope.$digest();
                             returnsIndex++;
@@ -82,19 +82,19 @@ angular.module("tada", []).provider("tadaUtils", [ "$provide", function($provide
             var spy = jasmine.createSpy(name);
             spy.fake = spy.andCallFake || spy.and.callFake;
             var func = spy.fake(function() {
-                calledWithArgs = serializeArgs(arguments);
+                calledWithArgs = toArray(arguments);
             });
             func.returns = function(value) {
                 func.realReturn = func.andReturn || func.and.returnValue;
                 func.realReturn(value);
             };
             func.whenCalledWithArgs = function() {
-                var expectedCalledArgs = serializeArgs(arguments);
+                var expectedCalledArgs = toArray(arguments);
                 return {
                     returns: function(value) {
                         func.fake = func.andCallFake || func.and.callFake;
                         return func.fake(function() {
-                            if (serializeArgs(arguments) === expectedCalledArgs) {
+                            if (angular.equals(toArray(arguments), expectedCalledArgs)) {
                                 return value;
                             }
                         });
