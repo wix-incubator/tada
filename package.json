@@ -1,9 +1,13 @@
 {
-  "name": "tada",
-  "version": "0.0.0",
+  "name": "tadajs",
+  "version": "0.1.0",
   "dependencies": {},
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
-    "wix-gruntfile": "~0.1.2"
+    "wix-gruntfile": "~0.1.2",
+    "wix-statics-parent": "*"
   },
   "engines": {
     "node": ">=0.8.0"
@@ -16,6 +20,6 @@
   },
   "private": false,
   "publishConfig": {
-    "registry": "http://repo.dev.wix/artifactory/api/npm/npm-local/"
+    "registry": "https://registry.npmjs.org/"
   }
 }
