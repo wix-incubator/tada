@@ -1,0 +1,68 @@
+<!doctype html>
+##<!-- #if( false )
+##  Prerequisites from server model:
+##  --------------------------------
+##  ${locale}, ${debug}, ${secured}, ${experiments},
+##  ${newRelicEndUserHeader}, ${newRelicEndUserFooter}
+##  ${clientTopology.tadaSslStaticsUrl},
+##  ${clientTopology.tadaStaticsUrl},
+##  ${clientTopology.staticBaseUrl},
+##  ${clientTopology.sslStaticBaseUrl}
+##
+##  More details at: http://kb.wixpress.com/display/dashboard/How+to+integrate+server+with+index.vm
+###end -->
+##<!--
+##  #if( false )
+##  DO NOT TOUCH!!
+##  --------------
+##  #end
+##  #set( $languages = ["de","en","es","fr","it","ja","ko","pl","pt","ru","tr"] )
+##  #if( !$languages.contains($locale) )
+##    #set( $locale = "en" )
+##  #end
+##  #if( $secured )
+##    #set( $staticsUrl = $clientTopology.tadaSslStaticsUrl )
+##    #set( $staticBaseUrl = $clientTopology.sslStaticBaseUrl )
+##  #else
+##    #set( $staticsUrl = $clientTopology.tadaStaticsUrl )
+##    #set( $staticBaseUrl = $clientTopology.staticBaseUrl )
+##  #end
+##-->
+<html ng-app="tadaDemoApp">
+  <head>
+    <!-- #if( false ) -->
+    <script>
+      /* jshint ignore:start */
+      ENABLE_MOCKS = ${enableMocks};
+    </script>
+    <!-- #end -->
+  </head>
+  <body>
+
+    Nothing to see here.. see the tests for documentation.
+
+    <script src="${staticBaseUrl}services/third-party/jquery/2.0.3/jquery#if(!${debug}).min#{end}.js"></script>
+    <script src="${staticBaseUrl}services/third-party/angularjs/1.2.28/angular#if(!${debug}).min#{end}.js"></script>
+    <script src="${staticsUrl}bower_components/angular-translate/angular-translate.js"></script>
+    <script src="${staticsUrl}bower_components/angular-i18n/angular-locale_${locale}.js"></script>
+    <script src="${staticsUrl}scripts/locale/messages_${locale}.js"></script>
+    <script src="${staticsUrl}bower_components/uri.js/src/URI.js"></script>
+    <script src="${staticsUrl}bower_components/wix-angular/dist/wix-angular.js"></script>
+    <script src="${staticsUrl}scripts/app.js"></script>
+    <script src="${staticsUrl}scripts/controllers/main.js"></script>
+    <!-- #if( !${debug} ) -->
+<script src="${staticsUrl}scripts/tada.js"></script>
+<!-- #else -#if( false )#end->
+<script src="${staticsUrl}_debug_scripts/lib/tada.js"></script><!-- #end -->
+
+    <!-- #if( false ) -->
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="mock/server-api.js"></script>
+    <script>
+      if (ENABLE_MOCKS) {
+        angular.module('tadaApp').requires.push('tadaAppMocks');
+      }
+    </script>
+    <!-- #end -->
+  </body>
+</html>
