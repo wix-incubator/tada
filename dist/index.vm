@@ -51,9 +51,9 @@
     <script src="${staticsUrl}scripts/app.js"></script>
     <script src="${staticsUrl}scripts/controllers/main.js"></script>
     <!-- #if( !${debug} ) -->
-<script src="${staticsUrl}scripts/tada.js"></script>
+<script src="${staticsUrl}scripts/tada.js" ></script>
 <!-- #else -#if( false )#end->
-<script src="${staticsUrl}_debug_scripts/lib/tada.js"></script><!-- #end -->
+<script src="${staticsUrl}_debug_scripts/lib/tada.js" ></script><!-- #end -->
 
     <!-- #if( false ) -->
     <script src="bower_components/angular-mocks/angular-mocks.js"></script>
