@@ -1,6 +1,6 @@
 {
   "name": "tadajs",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "dependencies": {},
   "files": [
     "dist"
@@ -18,7 +18,7 @@
     "test": "#tbd",
     "start": "grunt serve"
   },
-  "private": true,
+  "private": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   }
