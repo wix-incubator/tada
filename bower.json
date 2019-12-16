@@ -1,6 +1,6 @@
 {
   "name": "tada",
-  "version": "0.1.379",
+  "version": "0.1.380",
   "main": "dist/concat/scripts/tada.js",
   "keywords": [
     "testing",
