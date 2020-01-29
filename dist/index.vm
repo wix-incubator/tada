@@ -41,8 +41,8 @@
 
     Nothing to see here.. see the tests for documentation.
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <script src="${staticBaseUrl}services/third-party/jquery/2.0.3/jquery#if(!${debug}).min#{end}.js"></script>
+    <script src="${staticBaseUrl}services/third-party/angularjs/1.2.28/angular#if(!${debug}).min#{end}.js"></script>
     <script src="${staticsUrl}bower_components/angular-translate/angular-translate.js"></script>
     <script src="${staticsUrl}bower_components/angular-i18n/angular-locale_${locale}.js"></script>
     <script src="${staticsUrl}scripts/locale/messages_${locale}.js"></script>
