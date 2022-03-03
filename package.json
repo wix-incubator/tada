@@ -1,7 +1,9 @@
 {
   "name": "tadajs",
-  "version": "0.1.79",
-  "dependencies": {},
+  "version": "0.1.80",
+  "dependencies": {
+    "migrate-bower-artifactory": "^1.0.934"
+  },
   "files": [
     "dist"
   ],
@@ -18,7 +20,7 @@
     "test": "#tbd",
     "start": "grunt serve"
   },
-  "private": true,
+  "private": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   }
